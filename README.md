@@ -1,4 +1,4 @@
-So far, transformers have shown poor performance in arithmetic tasks, apparently due to the inability to track the exact position of each digit in a large dimension.
+So far, transformers have shown poor performance in arithmetic tasks, apparently due to the inability to track the exact position of each digit in a large dimension.  
 In all the works I have reviewed, Accuracy (exact match with the answer) was chosen as a metric, so in my work I will also report this metric.
 
 ## Literature review
