@@ -1,5 +1,7 @@
-So far, transformers have shown poor performance in arithmetic tasks, apparently due to the inability to track the exact position of each digit in a large dimension. In all the works I have reviewed, Accuracy (exact match with the answer) was chosen as a metric, so in my work I will also report this metric.
+So far, transformers have shown poor performance in arithmetic tasks, apparently due to the inability to track the exact position of each digit in a large dimension.
+In all the works I have reviewed, Accuracy (exact match with the answer) was chosen as a metric, so in my work I will also report this metric.
 
+## Literature review
 
 First, I wanted to focus on paper [[1]](#1), where the authors experiment with different ways of representing numbers and the ability of models to extrapolate the result. For extrapolation experiments, the models are trained on up to 50-digit numbers and evaluated on 60- digit numbers. The training was done in 100K iterations using batches of 128 examples. The encoder-decoder T5 models were trained. The following results were obtained:
 
@@ -11,7 +13,6 @@ First, I wanted to focus on paper [[1]](#1), where the authors experiment with d
 | T5-3B | 1.000 | 0.988 |
 
 Authors conclude that regardless of the number of parameters and training examples, models cannot seem to learn addition rules that are independent of the length of the numbers seen during training. Models cannot extrapolate, i.e., they fail to perform simple arithmetic when evaluated on inputs whose length distribution differs from the one seen during training. This appears to be a problem that neither larger models, more compute, nor more data can solve.
-
 
 
 
@@ -34,7 +35,7 @@ Three architectures are used as models: standard autoregressive transformer mode
 
 Training was conducted on Nvidia RTXA4000 GPU for 24 hours. The following results were obtained for the standard transformer: 1.0 for in distribution, 0.979 for out of distribution and 0.306 for extreme out of distribution.
 
-
+## Solution
 
 I based my work on the second article, because this approach demonstrates the best result. My main limiting factor was computing power (all work was done on the kaggle platform - GPU P100 with a time limit). For training data I took a slice of 5 million, numbers with a maximum of 15 digits. For testing I used 10000 data: 25 for each pair of lengths, lengths up to 20 digits inclusive. This data is taken from the training data of the article. 
 
