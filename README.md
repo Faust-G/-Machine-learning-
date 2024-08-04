@@ -3,7 +3,6 @@ So far, transformers have shown poor performance in arithmetic tasks, apparently
 
 First, I wanted to focus on paper [[1]](#1), where the authors experiment with different ways of representing numbers and the ability of models to extrapolate the result. For extrapolation experiments, the models are trained on up to 50-digit numbers and evaluated on 60- digit numbers. The training was done in 100K iterations using batches of 128 examples. The encoder-decoder T5 models were trained. The following results were obtained:
 
-```
 | Model | Interpolation | Extrapolation |
 | ------------- | ------------- | ------------- |
 | T5-60M | 0.998 | 0.004 |
@@ -11,7 +10,6 @@ First, I wanted to focus on paper [[1]](#1), where the authors experiment with d
 | T5-770M | 0.999 | 0.442 |
 | T5-3B | 1.000 | 0.988 |
 
-```
 Authors conclude that regardless of the number of parameters and training examples, models cannot seem to learn addition rules that are independent of the length of the numbers seen during training. Models cannot extrapolate, i.e., they fail to perform simple arithmetic when evaluated on inputs whose length distribution differs from the one seen during training. This appears to be a problem that neither larger models, more compute, nor more data can solve.
 
 
