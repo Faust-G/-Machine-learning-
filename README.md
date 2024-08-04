@@ -12,7 +12,7 @@ First, I wanted to focus on paper [[1]](#1), where the authors experiment with d
 | T5-770M | 0.999 | 0.442 |
 | T5-3B | 1.000 | 0.988 |
 
-Authors conclude that regardless of the number of parameters and training examples, models cannot seem to learn addition rules that are independent of the length of the numbers seen during training. Models cannot extrapolate, i.e., they fail to perform simple arithmetic when evaluated on inputs whose length distribution differs from the one seen during training. This appears to be a problem that neither larger models, more compute, nor more data can solve.
+Authors conclude that regardless of the number of parameters and training examples, models cannot seem to learn addition rules that are independent of the length of the numbers seen during training. Models cannot extrapolate, i.e., they fail to perform simple arithmetic when evaluated on inputs whose length distribution differs from the one seen during training. This appears to be a problem that neither larger models, more compute, nor more data can solve.  
 
 
 
@@ -39,13 +39,14 @@ Training was conducted on Nvidia RTXA4000 GPU for 24 hours. The following result
 
 I based my work on the second article, because this approach demonstrates the best result. My main limiting factor was computing power (all work was done on the kaggle platform - GPU P100 with a time limit). For training data I took a slice of 5 million, numbers with a maximum of 15 digits. For testing I used 10000 data: 25 for each pair of lengths, lengths up to 20 digits inclusive. This data is taken from the training data of the article. 
 
-My first approach was with the opt-125m and opt-350m models, in which I added Abacus Embeddings to the embedding layer and removed Absolute Embeddings.Inputs are formatted least significant digit first, as in the article. I chose the standard transformer architecture because, according to the experiments in the article, this architecture loses only when the training sample operands consist of a maximum of 10 digits; in other cases, it demonstrates either comparable or superior quality. But the training takes a very long time to converge, and there were experiments with different k, optimizers. Due to the quota, I could not complete this experiment. I decided to try a larger model with RoPE. Unfortunately, the authors do not measure the result with these embeddings on a standard transformer. The choice fell on the state of the art decoder with 464 million parameters NuExtract-tiny. But here I was again faced with time constraints and an expiring quota. That's why I decided to train this model without Abacus Embeddings, of course, in this case there is no need to even think about extrapolation. The results for each operand length are presented at the end of the notebook. Good results are obtained at lengths shorter than 15 and none at lengths longer, which is expected, although I could not find an article where measurements are taken for this setup. However, RoPE does limit the length generalization as models are trained only using rotations based on training data length. For 3.5 hours of training with batch size 8, I am happy with the result.
+My first approach was with the opt-125m and opt-350m models, in which I added Abacus Embeddings to the embedding layer and removed Absolute Embeddings. Inputs are formatted least significant digit first, as in the article. I chose the standard transformer architecture because, according to the experiments in the article, this architecture loses only when the training sample operands consist of a maximum of 10 digits; in other cases, it demonstrates either comparable or superior quality. But the training takes a very long time to converge, and there were experiments with different k, optimizers. Due to the quota, I could not complete this experiment. I decided to try a larger model with RoPE. Unfortunately, the authors do not measure the result with these embeddings on a standard transformer. The choice fell on the state of the art decoder with 464 million parameters NuExtract-tiny. But here I was again faced with time constraints and an expiring quota (some experiments you can find in train_NuExtract_abacus.ipynb). That's why I decided to train this model without Abacus Embeddings, of course, in this case there is no need to even think about extrapolation. The results for each operand length are presented at the end of the notebook (train_NuExtract.ipynb). Good results are obtained at lengths shorter than 15 and none at lengths longer, which is expected (RoPE does limit the length generalization as models are trained only using rotations based on training data length [[6]](#6)). However, RoPE does limit the length generalization as models are trained only using rotations based on training data length. For 3.5 hours of training with batch size 8, I am happy with the result.
 
 
 ## References
 
 <a id="1">[1]</a> 
-Rodrigo Nogueira, Zhiying Jiang & Jimmy Lin. Investigating the Limitations of Transformers with Simple Arithmetic Tasks, 2021. https://arxiv.org/abs/2102.13019
+Rodrigo Nogueira, Zhiying Jiang & Jimmy Lin. Investigating the Limitations of Transformers with Simple Arithmetic Tasks.
+In International Conference on Learning Representations, 2021. https://arxiv.org/abs/2102.13019
 
 <a id="2">[2]</a> 
 Sean McLeish, Arpit Bansal, Alex Stein, Neel Jain, John Kirchenbauer, Brian R. Bartoldson, et al. Transformers Can Do Arithmetic with the
@@ -57,12 +58,17 @@ and Preetum Nakkiran. What algorithms can transformers learn? a study in length 
 arXiv preprint arXiv:2310.16028, 2023. https://arxiv.org/pdf/2310.16028
 
 <a id="4">[4]</a> 
-Ruoqi Shen, Sébastien Bubeck, Ronen Eldan, Yin Tat Lee, Yuanzhi Li, and Yi Zhang. Positional
+Ruoqi Shen, Sébastien Bubeck, Ronen Eldan, Yin Tat Lee, Yuanzhi Li, and Yi Zhang. Positional 
 description matters for transformers arithmetic. arXiv preprint arXiv:2311.14737, 2023. https://arxiv.org/pdf/2311.14737
 
 <a id="5">[5]</a> 
 Nayoung Lee, Kartik Sreenivasan, Jason D Lee, Kangwook Lee, and Dimitris Papailiopoulos.
 Teaching arithmetic to small transformers. arXiv preprint arXiv:2307.03381, 2023. https://arxiv.org/pdf/2307.03381
+
+<a id="6">[6]</a> 
+Amirhossein Kazemnejad, Inkit Padhi, Karthikeyan Natesan Ramamurthy, Payel Das, Siva Reddy
+The Impact of Positional Encoding on Length Generalization in Transformers. In Conference on Neural Information Processing Systems,
+2023. https://arxiv.org/pdf/2305.19466
 
 
 
