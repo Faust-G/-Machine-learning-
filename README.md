@@ -42,7 +42,7 @@ My first approach was with the opt-125m and opt-350m models, in which I added Ab
 
 ## Conclusions
 
-For 3.5 hours of training with batch size 8 it is good result.  
+Extrapolation in the addition task is still a problem for SOTA transformers. But there are methods that, with proper training, can solve this problem.
 In a practical system, I don't envision a situation where deliberately training a network for arithmetic addition would be necessary. At the moment, it is go the way of an additional scenario. As, for example, it is done in the Walfram plugin for GPT. Or how various scenarios are processed in Yandex Alice: make a NER preprocessing, process it with a summarizer, then select the required skill with a formula and generate a response based on the result obtained. Of course, this increases the response time, but it helps to get an excellent result and adds more variability.
 
 ## References
@@ -57,7 +57,7 @@ Right Embeddings. arXiv preprint arXiv:2405.17399, 2024. https://arxiv.org/pdf/2
 
 <a id="3">[3]</a> 
 Hattie Zhou, Arwen Bradley, Etai Littwin, Noam Razin, Omid Saremi, Josh Susskind, Samy Bengio,
-and Preetum Nakkiran. What algorithms can transformers learn? a study in length generalization.
+and Preetum Nakkiran. What algorithms can transformers learn? A study in length generalization.
 arXiv preprint arXiv:2310.16028, 2023. https://arxiv.org/pdf/2310.16028
 
 <a id="4">[4]</a> 
@@ -69,7 +69,7 @@ Nayoung Lee, Kartik Sreenivasan, Jason D Lee, Kangwook Lee, and Dimitris Papaili
 Teaching arithmetic to small transformers. arXiv preprint arXiv:2307.03381, 2023. https://arxiv.org/pdf/2307.03381
 
 <a id="6">[6]</a> 
-Amirhossein Kazemnejad, Inkit Padhi, Karthikeyan Natesan Ramamurthy, Payel Das, Siva Reddy
+Amirhossein Kazemnejad, Inkit Padhi, Karthikeyan Natesan Ramamurthy, Payel Das, Siva Reddy.
 The Impact of Positional Encoding on Length Generalization in Transformers. In Conference on Neural Information Processing Systems,
 2023. https://arxiv.org/pdf/2305.19466
 
