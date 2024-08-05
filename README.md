@@ -15,11 +15,11 @@ First, I wanted to focus on paper [[1]](#1), where the authors experiment with d
 Authors conclude that regardless of the number of parameters and training examples, models cannot seem to learn addition rules that are independent of the length of the numbers seen during training. Models cannot extrapolate, i.e., they fail to perform simple arithmetic when evaluated on inputs whose length distribution differs from the one seen during training. This appears to be a problem that neither larger models, more compute, nor more data can solve.  
 <br/>
 <br/>
-But then I came across a recently published [[2]](#2). The authors propose a new approach to presenting information about the position of digits in a number.
+But then I came across a recently published paper [[2]](#2). The authors propose a new approach to presenting information about the position of digits in a number.
 
 *We find that training on only 20 digit numbers with a single GPU for one day, we can reach state-of-the-art performance, achieving up to 99% accuracy on 100 digit addition problems.*
 
-They propose to use embeddings for this, they call them "Abacus Embeddings". Each digit is tokenized separately and the embedding of the digit is added to the relative position embedding. The embedding index is equal to the position of the digit in the number. For example:
+They propose to use embeddings for this, they call them "Abacus Embeddings". Each digit is tokenized separately and the embedding of the digit is added to the relative position embedding. The relative position embedding index is equal to the position of the digit in the number. For example:
 ```
 Least Significant Digit First: 1  2  3  4  +  1  2  3  4  =  2  4  6  8
  Most Significant Digit First: 4  3  2  1  +  4  3  2  1  =  8  6  4  2
@@ -40,7 +40,7 @@ I based my work on the second article, because this approach demonstrates the be
 
 My first approach was with the opt-125m and opt-350m models, in which I added Abacus Embeddings to the embedding layer and removed Absolute Embeddings. Inputs are formatted least significant digit first, as in the article. I chose the standard transformer architecture because, according to the experiments in the article, this architecture loses only when the training sample operands consist of a maximum of 10 digits; in other cases, it demonstrates either comparable or superior quality. But the training takes a very long time to converge, and there were experiments with different k, optimizers. Due to the quota, I could not complete this experiment. I decided to try a larger model with RoPE. The choice fell on the state-of-the-art decoder with 464 million parameters NuExtract-tiny. But here I was again faced with time constraints and an expiring quota (some experiments you can find in train_NuExtract_abacus.ipynb). That's why I decided to train this model without Abacus Embeddings, of course, in this case there is no need to even think about extrapolation. The results for each operand length are presented at the end of the notebook (train_NuExtract.ipynb). Good results are obtained at lengths shorter than 15 and none at lengths longer, which is expected (RoPE does limit the length generalization as models are trained only using rotations based on training data length [[6]](#6)).
 
-## Сonclusions
+## Conclusions
 
 For 3.5 hours of training with batch size 8 it is good result.  
 In a practical system, I don't envision a situation where deliberately training a network for arithmetic addition would be necessary. At the moment, it is go the way of an additional scenario. As, for example, it is done in the Walfram plugin for GPT. Or how various scenarios are processed in Yandex Alice: make a NER preprocessing, process it with a summarizer, then select the required skill with a formula and generate a response based on the result obtained. Of course, this increases the response time, but it helps to get an excellent result and adds more variability.
