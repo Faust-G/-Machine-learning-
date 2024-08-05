@@ -42,8 +42,7 @@ My first approach was with the opt-125m and opt-350m models, in which I added Ab
 
 ## Conclusions
 
-Extrapolation in the addition task is still a problem for SOTA transformers. But there are methods that, with proper training, can solve this problem.
-In a practical system, I don't envision a situation where deliberately training a network for arithmetic addition would be necessary. At the moment, it is go the way of an additional scenario. As, for example, it is done in the Walfram plugin for GPT. Or how various scenarios are processed in Yandex Alice: make a NER preprocessing, process it with a summarizer, then select the required skill with a formula and generate a response based on the result obtained. Of course, this increases the response time, but it helps to get an excellent result and adds more variability.
+Extrapolation in the addition task is still a problem for SOTA transformers. But there is a method that, with proper training, can solve this problem.  In a practical system, I don't envision a situation where deliberately training a network for arithmetic addition would be necessary. At the moment, it is go the way of an additional scenario. As, for example, it is done in the Walfram plugin for GPT. Or how various scenarios are processed in Yandex Alice: make a NER preprocessing, process it with a summarizer, then select the required skill with a formula and generate a response based on the result obtained. Of course, this increases the response time, but it helps to get an excellent result and adds more variability.
 
 ## References
 
